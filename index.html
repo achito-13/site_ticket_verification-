@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vérification de Ticket</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; height: 100vh; }
+.container { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.2); max-width: 400px; width: 100%; }
+h1 { color: #0a3d91; text-align: center; }
+input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+button { width: 100%; padding: 10px; background: #0a3d91; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+button:hover { background: #062a62; }
+.error { color: red; font-size: 14px; }
+.success { color: green; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Vérification Ticket</h1>
+  <form id="ticketForm">
+    <input type="text" id="ticketCode" placeholder="Entrez le code du ticket" required>
+    <input type="text" id="userName" placeholder="Votre nom" required>
+    <input type="email" id="userEmail" placeholder="Votre e-mail" required>
+    <button type="submit">Vérifier</button>
+    <p id="message"></p>
+  </form>
+</div>
+
+<script>
+let usedCodes = [];
+document.getElementById("ticketForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const code = document.getElementById("ticketCode").value.trim();
+    const name = document.getElementById("userName").value.trim();
+    const email = document.getElementById("userEmail").value.trim();
+    const msg = document.getElementById("message");
+    if (!code || !name || !email) {
+        msg.textContent = "Veuillez remplir tous les champs.";
+        msg.className = "error";
+        return;
+    }
+    if (usedCodes.includes(code)) {
+        msg.textContent = "Ce code a déjà été utilisé.";
+        msg.className = "error";
+        return;
+    }
+    usedCodes.push(code);
+    msg.textContent = "Ticket vérifié avec succès !";
+    msg.className = "success";
+    // Ici tu peux intégrer Formspree ou autre pour envoyer les infos par mail
+});
+</script>
+</body>
+</html>
